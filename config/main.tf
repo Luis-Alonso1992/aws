@@ -20,7 +20,7 @@ terraform {
     encrypt        = true
     
     # Enable S3 Native State Locking (Terraform 1.10+)
-    use_lock_file  = true 
+    use_lockfile  = true 
   }
 }
 
