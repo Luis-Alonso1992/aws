@@ -28,6 +28,7 @@ terraform {
 resource "aws_instance" "web" {
     ami = "ami-0b6d9d3d33ba97d99"
     instance_type =  "t2.micro"
+    vpc_security_group_ids =  [aws_security_group.instance.id]
 
   user_data = <<-EOF
               #!/bin/bash
@@ -40,4 +41,21 @@ resource "aws_instance" "web" {
   tags = {
     Name = "teraform-example"
   }
+}
+
+resource "aws_security_group" "instance" {
+  name = "terraform-example-instance"
+  ingress {
+    from_port   = var.server_port
+    to_port     = var.server_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+
+}
+}
+
+variable "server_port" {
+    description ="The port used for HTTP requests"
+    type = number
+    default = 8080
 }
